@@ -13,4 +13,24 @@ public class ExceptionHandlerAdvice {
 	{
 		return  new ResponseEntity<>(dex.getMessage(),HttpStatus.NOT_FOUND);
 	}
+	
+	@ExceptionHandler(CustomException.class)
+	public ResponseEntity<String> someThingWrong(CustomException cex)
+	{
+		return  new ResponseEntity<>(cex.getMessage(),HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(ParkingNotFoundException.class)
+	public ResponseEntity<String> parkingNotFound(ParkingNotFoundException pex)
+	{
+		return  new ResponseEntity<>(pex.getMessage(),HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(AdminException.class)
+	public ResponseEntity<String> adminError(AdminException aex)
+	{
+		return  new ResponseEntity<>(aex.getMessage(),HttpStatus.BAD_REQUEST);
+	}
+	
+	
 }

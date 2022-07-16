@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.carpark.entity.ParkingCenter;
+import com.carpark.exception.CustomException;
+import com.carpark.exception.ParkingNotFoundException;
 import com.carpark.service.ManagerService;
 
 // who will manage parking with allocation,availability and billing etc
@@ -29,36 +31,36 @@ public class ManagerController {
 	private ManagerService managerService;
 	
 	@PostMapping("/addcenter")
-	public ResponseEntity<ParkingCenter> addParkingCenter(@RequestBody ParkingCenter parkingcenter , @RequestParam String role)
+	public ResponseEntity<ParkingCenter> addParkingCenter(@RequestBody ParkingCenter parkingcenter) throws CustomException
 	{
-		return new ResponseEntity<ParkingCenter>(managerService.createParkingCenter(parkingcenter, role),HttpStatus.OK);
+		return new ResponseEntity<ParkingCenter>(managerService.createParkingCenter(parkingcenter),HttpStatus.OK);
 	}
 	
 	@GetMapping("/findCenterById")
-	public ResponseEntity<ParkingCenter> findParkingCenterById(@RequestParam Long centerId) {
+	public ResponseEntity<ParkingCenter> findParkingCenterById(@RequestParam Long centerId) throws CustomException {
 		return new ResponseEntity<ParkingCenter>(managerService.viewParkingCenter(centerId),HttpStatus.OK);
 	}
 	
 	@GetMapping("/parkingStatus/{location}/{centerId}")
-	public ResponseEntity<String> parkingStatusAtLocation(@PathVariable (value="location") String location,@PathVariable (value="centerId") Long centerId )
+	public ResponseEntity<String> parkingStatusAtLocation(@PathVariable (value="location") String location,@PathVariable (value="centerId") Long centerId ) throws CustomException
 	{
 		return new ResponseEntity<String>(managerService.viewParkingAvailable(location,centerId),HttpStatus.OK);
 	}
 	
 	@GetMapping("/parkingcentersatlocation")
-	public ResponseEntity<List<ParkingCenter>> allParkingAtLocation(@RequestParam String location)
+	public ResponseEntity<List<ParkingCenter>> allParkingAtLocation(@RequestParam String location) throws CustomException
 	{
 		return new ResponseEntity<List<ParkingCenter>>(managerService.centersAtLocation(location),HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/deletecenetrbyid/{id}")
-	public ResponseEntity<String> deleteCenterbyId(@PathVariable (value="id") Long id)
+	public ResponseEntity<String> deleteCenterbyId(@PathVariable (value="id") Long id) throws CustomException
 	{
 		return new ResponseEntity<String>(managerService.deleteParkingCenterById(id),HttpStatus.OK);
 	}
 	
 	@PutMapping("/updatecenterbyId/{id}")
-	public ResponseEntity<ParkingCenter> updateCenterbyId(@RequestBody ParkingCenter parkingcenter,@PathVariable(value="id")Long id)
+	public ResponseEntity<ParkingCenter> updateCenterbyId(@RequestBody ParkingCenter parkingcenter,@PathVariable(value="id")Long id) throws ParkingNotFoundException
 	{
 		return new ResponseEntity<ParkingCenter>(managerService.updateParkingCenter(parkingcenter, id),HttpStatus.OK);
 	}

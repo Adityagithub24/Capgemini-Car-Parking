@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.carpark.entity.Parking;
 import com.carpark.entity.ParkingCenter;
+import com.carpark.exception.AdminException;
+import com.carpark.exception.CustomException;
 import com.carpark.exception.DeleteParkingException;
 import com.carpark.service.AdminService;
 
@@ -31,27 +33,27 @@ public class AdminController {
 	@GetMapping("/hello")
 	public ResponseEntity<String> check()
 	{
-		return new ResponseEntity<String>("hi hello bye",HttpStatus.OK);
+		return new ResponseEntity<String>("hi hello",HttpStatus.ACCEPTED);
 	}
 	
 	//view All parkings
 	@GetMapping("/allparking")
-	public ResponseEntity<List<Parking>> getAllParking()
+	public ResponseEntity<List<Parking>> getAllParking() throws AdminException
 	{
 		return new ResponseEntity<List<Parking>>(adminService.viewAllParking(),HttpStatus.OK);
 	}
 	
 	@GetMapping("/allparkingcenter")
-	public ResponseEntity<List<ParkingCenter>> getAllParkingCenter()
+	public ResponseEntity<List<ParkingCenter>> getAllParkingCenter() throws AdminException
 	{
 		return new ResponseEntity<List<ParkingCenter>>(adminService.viewAllParkingCenter(),HttpStatus.OK);
 	}
 	
 	//Add A New Parking
-	@PostMapping("/addparking")
-	public ResponseEntity<Parking> addParking(@RequestBody Parking parking )
+	@PostMapping("/addparking/{centerId}")
+	public ResponseEntity<Parking> addParking(@RequestBody Parking parking ,@PathVariable(value="centerId") Long centerId) throws CustomException
 	{
-		return new ResponseEntity<Parking>(adminService.addParking(parking),HttpStatus.OK);
+		return new ResponseEntity<Parking>(adminService.addParking(parking,centerId),HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/deleteparking/{id}")
@@ -61,7 +63,7 @@ public class AdminController {
 	}
 	
 	@PutMapping("/updateparking/{id}")
-	public ResponseEntity<Parking> updateParking(@RequestBody Parking parking ,@PathVariable(value="id") Long id)
+	public ResponseEntity<Parking> updateParking(@RequestBody Parking parking ,@PathVariable(value="id") Long id) throws CustomException
 	{
 		return new ResponseEntity<Parking>(adminService.updateParking(parking,id),HttpStatus.OK); 
 	}

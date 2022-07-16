@@ -3,7 +3,6 @@ package com.carpark.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,8 +23,9 @@ public class Vehical {
 	private String vehicalName;
 	private String vehicalType;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "customer_Id",referencedColumnName = "customerId")
+	@OneToOne(cascade = CascadeType.ALL , mappedBy="vehical")
+	//@JoinColumn(name = "customer_Id",referencedColumnName = "customerId")
+	//@MappedBy()
 	@JsonIgnore
 	private Customer customer;
 	

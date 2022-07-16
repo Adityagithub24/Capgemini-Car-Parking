@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.carpark.entity.Customer;
 import com.carpark.entity.Parking;
 import com.carpark.entity.ParkingCenter;
+import com.carpark.exception.CustomException;
 import com.carpark.exception.DeleteParkingException;
 import com.carpark.service.CustomerService;
 
@@ -30,25 +31,25 @@ public class CustomerController {
 	private CustomerService customerService;
 	
 	@GetMapping("/findparkingbylocation/{location}")
-	public ResponseEntity<List<ParkingCenter>> allParkingAtLocation(@PathVariable(value="location") String location)
+	public ResponseEntity<List<ParkingCenter>> allParkingAtLocation(@PathVariable(value="location") String location) throws CustomException
 	{
 		return new ResponseEntity<List<ParkingCenter>>(customerService.centersAtLocation(location),HttpStatus.OK);
 	}
 	
 	@PostMapping("/register")
-	public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer)
+	public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) throws CustomException
 	{
 		return new ResponseEntity<Customer>(customerService.addCustomer(customer),HttpStatus.ACCEPTED);
 	}
 	
 	@GetMapping("/parkingStatus/{location}/{centerId}")
-	public ResponseEntity<String> parkingStatusAtLocation(@PathVariable (value="location") String location,@PathVariable (value="centerId") Long centerId )
+	public ResponseEntity<String> parkingStatusAtLocation(@PathVariable (value="location") String location,@PathVariable (value="centerId") Long centerId ) throws CustomException
 	{
 		return new ResponseEntity<String>(customerService.viewParkingAvailable(location,centerId),HttpStatus.OK);
 	}
 	
 	@PostMapping("/bookparking/{centerId}/{customerId}")
-	public ResponseEntity<Parking> bookParking(@RequestBody Parking parking , @PathVariable(value="centerId") Long centerId,@PathVariable(value="customerId") Long customerId )
+	public ResponseEntity<Parking> bookParking(@RequestBody Parking parking , @PathVariable(value="centerId") Long centerId,@PathVariable(value="customerId") Long customerId ) throws CustomException
 	{
 		return new ResponseEntity<Parking>(customerService.bookParking(parking,centerId,customerId),HttpStatus.OK); 
 	}
@@ -60,7 +61,7 @@ public class CustomerController {
 	}
 	
 	@GetMapping("/viewparking/{id}")
-	public ResponseEntity<Parking> viewById(@PathVariable(value = "id") Long id) 
+	public ResponseEntity<Parking> viewById(@PathVariable(value = "id") Long id) throws CustomException 
 	{
 		return new ResponseEntity<Parking>(customerService.viewParkingById(id),HttpStatus.OK);
 	}

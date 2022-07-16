@@ -38,8 +38,8 @@ public class Customer {
 	private Vehical vehical;
 	
 	@JsonIgnore
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "token_Id",referencedColumnName = "tokenId")
+	@OneToOne(cascade = CascadeType.ALL , mappedBy="customer")
+	//@JoinColumn(name = "token_Id",referencedColumnName = "tokenId")
 	private Parking parking;
 
 	public Long getCustomerId() {
