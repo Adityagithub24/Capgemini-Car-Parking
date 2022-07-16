@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.carpark.entity.Parking;
+import com.carpark.entity.ParkingCenter;
 import com.carpark.exception.DeleteParkingException;
 import com.carpark.service.AdminService;
 
@@ -27,11 +28,23 @@ public class AdminController {
 	@Autowired
 	AdminService adminService;
 	
+	@GetMapping("/hello")
+	public ResponseEntity<String> check()
+	{
+		return new ResponseEntity<String>("hi hello bye",HttpStatus.OK);
+	}
+	
 	//view All parkings
 	@GetMapping("/allparking")
 	public ResponseEntity<List<Parking>> getAllParking()
 	{
 		return new ResponseEntity<List<Parking>>(adminService.viewAllParking(),HttpStatus.OK);
+	}
+	
+	@GetMapping("/allparkingcenter")
+	public ResponseEntity<List<ParkingCenter>> getAllParkingCenter()
+	{
+		return new ResponseEntity<List<ParkingCenter>>(adminService.viewAllParkingCenter(),HttpStatus.OK);
 	}
 	
 	//Add A New Parking

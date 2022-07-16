@@ -36,8 +36,8 @@ public class ManagerServiceImpl implements ManagerService {
 	}
 
 	@Override
-	public String viewParkingAvailable(String location) {
-		ParkingCenter parkingcenter =  pcRepo.centerAvailability(location); 
+	public String viewParkingAvailable(String location,Long centerId) {
+		ParkingCenter parkingcenter =  pcRepo.centerAvailability(location, centerId); 
 		if(parkingcenter==null)
 		{return null;}
 		else

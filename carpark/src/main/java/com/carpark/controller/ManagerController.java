@@ -39,10 +39,10 @@ public class ManagerController {
 		return new ResponseEntity<ParkingCenter>(managerService.viewParkingCenter(centerId),HttpStatus.OK);
 	}
 	
-	@GetMapping("/parkingStatusAtLocation")
-	public ResponseEntity<String> parkingStatusAtLocation(@RequestParam String location)
+	@GetMapping("/parkingStatus/{location}/{centerId}")
+	public ResponseEntity<String> parkingStatusAtLocation(@PathVariable (value="location") String location,@PathVariable (value="centerId") Long centerId )
 	{
-		return new ResponseEntity<String>(managerService.viewParkingAvailable(location),HttpStatus.OK);
+		return new ResponseEntity<String>(managerService.viewParkingAvailable(location,centerId),HttpStatus.OK);
 	}
 	
 	@GetMapping("/parkingcentersatlocation")

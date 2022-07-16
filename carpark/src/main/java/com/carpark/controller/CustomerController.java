@@ -41,10 +41,10 @@ public class CustomerController {
 		return new ResponseEntity<Customer>(customerService.addCustomer(customer),HttpStatus.ACCEPTED);
 	}
 	
-	@GetMapping("/parkingStatusAtLocation")
-	public ResponseEntity<String> parkingStatusAtLocation(@RequestParam String location)
+	@GetMapping("/parkingStatus/{location}/{centerId}")
+	public ResponseEntity<String> parkingStatusAtLocation(@PathVariable (value="location") String location,@PathVariable (value="centerId") Long centerId )
 	{
-		return new ResponseEntity<String>(customerService.viewParkingAvailable(location),HttpStatus.OK);
+		return new ResponseEntity<String>(customerService.viewParkingAvailable(location,centerId),HttpStatus.OK);
 	}
 	
 	@PostMapping("/bookparking/{centerId}/{customerId}")
@@ -59,6 +59,10 @@ public class CustomerController {
 		return new ResponseEntity<String>(customerService.deleteParkingById(id),HttpStatus.OK);
 	}
 	
-	
+	@GetMapping("/viewparking/{id}")
+	public ResponseEntity<Parking> viewById(@PathVariable(value = "id") Long id) 
+	{
+		return new ResponseEntity<Parking>(customerService.viewParkingById(id),HttpStatus.OK);
+	}
 
 }

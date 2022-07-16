@@ -10,7 +10,7 @@ public interface ManagerService {
 
 	public ParkingCenter viewParkingCenter(Long centerId);
 	
-	public String viewParkingAvailable(String location);
+	public String viewParkingAvailable(String location,Long centerId);
 	
 	public List<ParkingCenter> centersAtLocation(String Location);
 	

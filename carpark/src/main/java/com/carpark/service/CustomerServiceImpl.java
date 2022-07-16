@@ -64,7 +64,10 @@ public class CustomerServiceImpl implements CustomerService {
 	//customer can delete parking
 	@Override
 	public String deleteParkingById(Long id) throws DeleteParkingException {
-		if (parkRepo.findById(id).isPresent()) {
+		Optional<Parking> parking = parkRepo.findById(id);
+		if (parking.isPresent()) {
+			int x = parking.get().getParkingCenter().getBooked();
+			parking.get().getParkingCenter().setBooked(x-1);
 			parkRepo.deleteById(id);
 			return "Parking Deleted Successfully";
 		}else {
@@ -73,8 +76,8 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public String viewParkingAvailable(String location) {
-		ParkingCenter parkingcenter =  parkingRepo.centerAvailability(location); 
+	public String viewParkingAvailable(String location,Long centerId) {
+		ParkingCenter parkingcenter =  parkingRepo.centerAvailability(location, centerId); 
 		if(parkingcenter==null)
 		{return null;}
 		else
@@ -84,6 +87,22 @@ public class CustomerServiceImpl implements CustomerService {
 		                  +"\n Spots Available :- "+(parkingcenter.getCapacity()-parkingcenter.getBooked());
 
 			return str;
+		}
+		
+	}
+
+	@Override
+	public Parking viewParkingById(Long id) {
+		Optional<Parking> parking = parkRepo.findById(id);
+		if(parking.isPresent())
+		{
+			return parking.get();
+		}
+		else
+		{
+			//Exception
+			System.out.println("parking Not found");
+			return null;
 		}
 		
 	}

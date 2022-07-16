@@ -20,7 +20,9 @@ public interface CustomerService {
 	
 	public String deleteParkingById(Long id) throws DeleteParkingException;
 
-	public String viewParkingAvailable(String location);
+	public String viewParkingAvailable(String location,Long centerId);
+
+	public Parking viewParkingById(Long id);
 	
 	//update his parking
 

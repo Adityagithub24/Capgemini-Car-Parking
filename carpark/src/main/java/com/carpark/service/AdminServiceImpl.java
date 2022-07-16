@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.carpark.entity.Parking;
+import com.carpark.entity.ParkingCenter;
 import com.carpark.exception.DeleteParkingException;
 import com.carpark.repository.CustomerRepository;
+import com.carpark.repository.ParkingCenterRepository;
 import com.carpark.repository.ParkingRepository;
 import com.carpark.repository.VehicalRepository;
 
@@ -22,6 +24,8 @@ public class AdminServiceImpl implements AdminService {
 	private CustomerRepository customerRepo;
 	@Autowired
 	private VehicalRepository vehicalRepo;
+	@Autowired
+	private ParkingCenterRepository pRepo;
 	
 	@Override
 	public Parking addParking(Parking parking) {
@@ -31,7 +35,10 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public String deleteParkingByToken(Long tokenId) throws DeleteParkingException {
-		if (parkingRepos.findById(tokenId).isPresent()) {
+		Optional<Parking> parking = parkingRepos.findById(tokenId);
+		if (parking.isPresent()) {
+			int x = parking.get().getParkingCenter().getBooked();
+			parking.get().getParkingCenter().setBooked(x-1);
 			parkingRepos.deleteById(tokenId);
 			return "Parking Deleted Successfully";
 		}else {
@@ -57,6 +64,11 @@ public class AdminServiceImpl implements AdminService {
 			return null;
 		}
 		
+	}
+
+	@Override
+	public List<ParkingCenter> viewAllParkingCenter() {
+		return pRepo.findAll();
 	}
 
 }

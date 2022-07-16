@@ -3,6 +3,7 @@ package com.carpark.service;
 import java.util.List;
 
 import com.carpark.entity.Parking;
+import com.carpark.entity.ParkingCenter;
 import com.carpark.exception.DeleteParkingException;
 
 public interface AdminService {
@@ -20,6 +21,7 @@ public interface AdminService {
 	
 	public Parking updateParking(Parking parking, Long id);
 	
+	public List<ParkingCenter> viewAllParkingCenter();
 	
 	
 }
