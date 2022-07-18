@@ -7,6 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import org.hibernate.annotations.Cascade;
 import org.springframework.stereotype.Component;
 
 /*
@@ -36,8 +37,10 @@ public class Parking {
 	@JoinColumn(name = "center_Id",referencedColumnName = "centerId")
 	 private ParkingCenter parkingCenter;
 	
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customer_Id",referencedColumnName = "customerId")
+	@Cascade(org.hibernate.annotations.CascadeType.DELETE)
 	private Customer customer;
 //	
 //	@OneToOne(cascade = CascadeType.ALL)
